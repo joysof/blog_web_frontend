@@ -3,16 +3,23 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://10.19.193.14:3000/api/v1',
+    baseUrl: 'http://10.163.123.14:3000/api/v1',
+
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem('token')
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`)
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        if (token) {
+          headers.set("authorization", `Bearer ${token}`);
       }
+    }
       return headers
-    },
+    }
   }),
+
+
   endpoints: (builder) => ({
+
+    // login 
     login: builder.mutation({
       query: (data) => ({
         url: '/auth/login',
@@ -20,7 +27,21 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+
+      // register 
+
+      register: builder.mutation({
+      query: (data) => ({
+        url: "/auth/register",
+        method: "POST",
+        body: data,
+      }),
+
   }),
+}),
 })
 
-export const {useLoginMutation} = authApi
+export const {
+  useLoginMutation ,
+  useRegisterMutation
+} = authApi
