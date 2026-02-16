@@ -26,7 +26,7 @@ const RegisterPage = () => {
         role: 'user',
       }).unwrap()
 
-      router.push('/login')
+      router.push('/verify-email')
       console.log('register SUCCESS')
     } catch (error) {
       console.log('error', error)
@@ -83,7 +83,7 @@ const RegisterPage = () => {
 
           <button
             type="submit"
-            className="bg-[#9DA1F1] rounded-full px-6 py-1 capitalize text-black mt-5 m-auto"
+            className="bg-[#9DA1F1] rounded-full cursor-pointer px-6 py-1 capitalize text-black mt-5 m-auto"
             disabled={isLoading}
           >
             {isLoading ? 'Logging in...' : 'Sing Up'}

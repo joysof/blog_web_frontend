@@ -38,10 +38,21 @@ export const authApi = createApi({
       }),
 
   }),
+
+  // email verify 
+
+  verifyEmail : builder.mutation ({
+    query : (data) =>({
+      url : "/auth/verify-email",
+      method : "POST",
+      body : data
+    })
+  })
 }),
 })
 
 export const {
   useLoginMutation ,
-  useRegisterMutation
+  useRegisterMutation,
+  useVerifyEmailMutation
 } = authApi

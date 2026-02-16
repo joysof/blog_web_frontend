@@ -59,7 +59,7 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 />
-                <button type="submit" className="bg-[#9DA1F1] rounded-full px-6 py-1 capitalize text-black mt-5 m-auto"
+                <button type="submit" className="bg-[#9DA1F1] cursor-pointer rounded-full px-6 py-1 capitalize text-black mt-5 m-auto"
                 disabled={isLoading}
                 >
                     {isLoading ? "Logging in..." : "login"}
