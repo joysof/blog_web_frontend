@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://10.163.123.14:3000/api/v1',
+    baseUrl: 'http://10.120.79.14:3000/api/v1',
 
     prepareHeaders: (headers) => {
       if (typeof window !== "undefined") {
