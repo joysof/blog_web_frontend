@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Pencil, LogOut, CircleUserRound, LogIn, Home } from 'lucide-react'
+import { Pencil, LogOut, CircleUserRound, LogIn, Home,moveUp  } from 'lucide-react'
 
 export default function Navbar() {
   const [token, setToken] = useState(null)
