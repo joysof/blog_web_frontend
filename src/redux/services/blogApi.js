@@ -16,17 +16,32 @@ export const blogApi = createApi({
   }),
 
   endpoints : (builder) =>({
+
+    // create a new blog 
     createBlog : builder.mutation({
         query : (data) => ({
             url : "/blog",
             method : "POST",
             body : data
         })
+    }),
+
+    // get all blogs 
+
+    getBlogs : builder.query({
+      query : (data)=>({
+        url : "/blog",
+        method : "Get",
+        body: data
+      })
     })
+
+
   })
 
 })
 
 export const {
-    useCreateBlogMutation
+    useCreateBlogMutation,
+    useGetBlogsQuery
 } = blogApi
