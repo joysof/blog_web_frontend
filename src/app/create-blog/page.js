@@ -5,38 +5,38 @@ import { useRouter } from 'next/navigation'
 import { useCreateBlogMutation } from '@/redux/services/blogApi'
 import { MoveUp } from 'lucide-react'
 const createBlogPage = () => {
-    const router = useRouter()
-    const [createBlog, { isLoading }]=useCreateBlogMutation()
+  const router = useRouter()
+  const [createBlog, { isLoading }] = useCreateBlogMutation()
 
-  
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState(null)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState('All')
+  const [preview, setPreview] = useState(null)
 
-  const handleSubmit = async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setError("")
-    setMessage("")
+    setError('')
+    setMessage('')
 
     try {
-      console.log("click to submit btn")
+      console.log('click to submit btn')
       const formData = new FormData()
-      formData.append("description" , description)
-      formData.append("category" , category)
-      formData.append("title", title)
-      if (image) formData.append("image" , image)
+      formData.append('description', description)
+      formData.append('category', category)
+      formData.append('title', title)
+      if (image) formData.append('image', image)
 
-        await createBlog(formData).unwrap()
+      await createBlog(formData).unwrap()
 
-        setMessage("Blog created successfully")
+      setMessage('Blog created successfully')
 
-        setTimeout(() => router.push("/blogs",1500))
+      setTimeout(() => router.push('/blogs', 1500))
     } catch (err) {
-      setError(err?.data?.message || "Failed to create blog");
-      console.log("submit error")
+      setError(err?.data?.message || 'Failed to create blog')
+      console.log('submit error')
     }
   }
   return (
@@ -62,27 +62,42 @@ const [category, setCategory] = useState("All");
           <div className=" mt-5">
             <input
               type="file"
-              onChange={(e) => setImage(e.target.files[0])}
-              className="hidden"
-              id="imageUpload"
               accept="image/*"
+              id="imageUpload"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files[0]
+                if (file) {
+                  setImage(file)
+                  setPreview(URL.createObjectURL(file))
+                }
+              }}
             />
+
             <label
               htmlFor="imageUpload"
-              className=" border-dotted border rounded-sm flex items-center justify-center  cursor-pointer h-40 "
+              className=" border-dotted border rounded-sm flex items-center justify-center  cursor-pointer h-40 overflow-hidden "
             >
               <div className="flex flex-col justify-center items-center">
-                <MoveUp />
-                <span className="px-2 py-2 bg-[#649DFF] mt-2 rounded-2xl">
-                  {' '}
-                  Upload image
-                </span>
+                {preview ? (
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center flex-col">
+                    <MoveUp />
+                    <span className="px-2 py-2 bg-[#649DFF] mt-2 rounded-2xl">
+                      Upload image
+                    </span>
+                  </div>
+                )}
               </div>
             </label>
           </div>
 
           <div>
-            
             <textarea
               className=" h-40 outline-none shadow rounded-md bg-[#D9D9D9]/25 mt-5 w-full px-2 py-2"
               placeholder="Enter your Description"
@@ -93,15 +108,22 @@ const [category, setCategory] = useState("All");
               value={description}
             />
           </div>
-          <select   value={category}
-  onChange={(e) => setCategory(e.target.value)} className='border mt-5 px-2 py-2'>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="border mt-5 px-2 py-2"
+          >
             <option value="All">All</option>
             <option value="Technology">Technology </option>
             <option value="Lifestyle">Lifestyle</option>
             <option value="Education"> Education</option>
             <option value="Food">Food</option>
           </select>
-          <button className='bg-gray-400 cursor-pointer px-5 py-2 ml-5 rounded-2xl' type="submit" disabled={isLoading}>
+          <button
+            className="bg-gray-400 cursor-pointer px-5 py-2 ml-5 rounded-2xl"
+            type="submit"
+            disabled={isLoading}
+          >
             {isLoading ? 'Posting...' : 'create Blog'}
           </button>
         </form>
