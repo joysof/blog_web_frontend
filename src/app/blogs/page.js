@@ -17,7 +17,7 @@ const { data, isLoading, error } = useGetBlogsQuery()
     )
 console.log("data ", data)
   return (
-    <div className="bg-white pt-5 h-screen text-black">
+    <div className="bg-white pt-5 text-black">
       {/* search bar  */}
       <div className=" relative m-auto max-w-md">
         <input
@@ -27,15 +27,19 @@ console.log("data ", data)
         <Search className=" cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 " />
       </div>
 
-      <div className="sm:flex justify-center mt-2 gap-8">
-        <div>
+      <div className="mt-2 gap-8">
+        <div className=' sm:grid grid-cols-3 md:grid-cols-4'>
           {data?.map((blog) => (
             <div key={blog._id}>
               {blog.image && (
                 <Image alt='img' width={220} height={220} 
                 
                 className="w-[350px] m-auto border"  src={`${DOMAIN}/uploads/blogsImage/${blog.image}`} unoptimized />
-              )}
+              )
+              
+              }
+
+
               <div>
                 {/* title and category  */}
                 <div className="flex justify-between mt-2 px-5">
