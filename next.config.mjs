@@ -6,9 +6,9 @@ const nextConfig = {
     remotePatterns :[
       {
         protocol : 'http',
-        hostname : '10.120.79.14',
+        hostname : '10.120.79.14:',
         port : '3000',
-        pathname : '/api/v1/uploads/blogs/**'
+        pathname : '/uploads/**'
       }
     ]
   }

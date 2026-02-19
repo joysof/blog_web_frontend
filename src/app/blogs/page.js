@@ -8,6 +8,7 @@ import { useGetBlogsQuery } from '@/redux/services/blogApi'
 
 const BLogsPage = () => {
   const API_URL = process.env.NEXT_PUBLIC_BASE_URL
+  const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN
 const { data, isLoading, error } = useGetBlogsQuery()
   if (isLoading) return <p className="text-center mt-10">Loading...</p>
   if (error)
@@ -31,9 +32,9 @@ console.log("data ", data)
           {data?.map((blog) => (
             <div key={blog._id}>
               {blog.image && (
-                <Image width={220} height={220} 
+                <Image alt='img' width={220} height={220} 
                 
-                className="w-[350px] m-auto border"  src={`${API_URL}/uploads/blogs/${blog.image}`} />
+                className="w-[350px] m-auto border"  src={`${DOMAIN}/uploads/blogsImage/${blog.image}`} unoptimized />
               )}
               <div>
                 {/* title and category  */}

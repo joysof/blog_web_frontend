@@ -120,7 +120,7 @@ const createBlogPage = () => {
             <option value="Food">Food</option>
           </select>
           <button
-            className="bg-gray-400 cursor-pointer px-5 py-2 ml-5 rounded-2xl"
+            className="bg-gray-400 capitalize cursor-pointer px-5 py-2 ml-5 rounded-2xl"
             type="submit"
             disabled={isLoading}
           >
