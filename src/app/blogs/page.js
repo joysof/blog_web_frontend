@@ -3,19 +3,21 @@
 import React from 'react'
 import { Search } from 'lucide-react'
 import Image from 'next/image'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 import { useGetBlogsQuery } from '@/redux/services/blogApi'
-
+dayjs.extend(relativeTime)
 const BLogsPage = () => {
   const API_URL = process.env.NEXT_PUBLIC_BASE_URL
   const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN
-const { data, isLoading, error } = useGetBlogsQuery()
+  const { data, isLoading, error } = useGetBlogsQuery()
   if (isLoading) return <p className="text-center mt-10">Loading...</p>
   if (error)
     return (
       <p className="text-center mt-10 text-red-500">Failed to load blogs</p>
     )
-console.log("data ", data)
+  console.log('data ', data)
   return (
     <div className="bg-white pt-5 text-black">
       {/* search bar  */}
@@ -27,31 +29,39 @@ console.log("data ", data)
         <Search className=" cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 " />
       </div>
 
-      <div className="mt-2 gap-8">
-        <div className=' sm:grid grid-cols-3 md:grid-cols-4'>
+      <div className="gap-8">
+        <div className=" sm:grid md:grid-cols-2 lg:grid-cols-4">
           {data?.map((blog) => (
-            <div key={blog._id}>
+            <div className="mt-5" key={blog._id}>
               {blog.image && (
-                <Image alt='img' width={220} height={220} 
-                
-                className="w-[350px] m-auto border"  src={`${DOMAIN}/uploads/blogsImage/${blog.image}`} unoptimized />
-              )
-              
-              }
+                <div className="w-full h-[300px] overflow-hidden">
+                  <Image
+                    alt="img"
+                    width={220}
+                    height={220}
+                    className="w-[300px] m-auto border rounded-2xl"
+                    src={`${DOMAIN}/uploads/blogsImage/${blog.image}`}
+                    unoptimized
+                  />
+                </div>
+              )}
 
-
-              <div>
+              <div className="w-[300] m-auto">
                 {/* title and category  */}
-                <div className="flex justify-between mt-2 px-5">
-                  <h2>{blog.title}</h2>
-                  {console.log("blog title ", blog.title)}
-                  <h4>{blog.category}</h4>
+                <div className="flex justify-between items-center mt-2 px-5">
+                  <h2 className=" text-2xl">{blog.title}</h2>
+                  {console.log('blog title ', blog.title)}
+                  <h4 className=" text-blue-400">{blog.category}</h4>
                 </div>
 
                 {/* auther and time  */}
-                <div className="flex justify-between px-5">
-                  <h4>auther</h4>
-                  <h5>a mint ago</h5>
+                <div className="flex gap-5 items-center my-1  px-5">
+                  <h4 className=" text-blue-400 capitalize">
+                    {blog.user_id?.firstName
+                      ? `${blog.user_id.firstName} ${blog.user_id.lastName ? `${blog.user_id.lastName}` : ''}`
+                      : blog.user_id?.email || 'Unknown Author'}
+                  </h4>
+                  <h5>{dayjs(blog.createdAt).fromNow()}</h5>
                 </div>
                 <p className="px-5">{blog.description}</p>
               </div>

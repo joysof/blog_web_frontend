@@ -108,6 +108,7 @@ const createBlogPage = () => {
               value={description}
             />
           </div>
+          
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
