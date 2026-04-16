@@ -3,6 +3,7 @@ import "./globals.css";
 
 import Providers from "./providers";
 import Navbar from "../components/Navbar";
+import BLogsPage from "./blogs/page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +22,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
+        
         <Providers>
+          <BLogsPage/>
           {children}
         </Providers>
       </body>

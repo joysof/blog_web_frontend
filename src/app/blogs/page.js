@@ -11,28 +11,57 @@ dayjs.extend(relativeTime)
 const BLogsPage = () => {
   const API_URL = process.env.NEXT_PUBLIC_BASE_URL
   const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN
-  const { data, isLoading, error } = useGetBlogsQuery()
+  const [search, setSearch] = React.useState('')
+
+  const [debouncedSearch, setDebouncedSearch] = React.useState('')
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [search])
+
+  const { data, isLoading, isError } = useGetBlogsQuery({
+    search: debouncedSearch,
+    page: 1,
+    limit: 10,
+  })
+  const blogs = data?.data?.attributes?.results
+
   if (isLoading) return <p className="text-center mt-10">Loading...</p>
-  if (error)
-    return (
-      <p className="text-center mt-10 text-red-500">Failed to load blogs</p>
-    )
-  console.log('data ', data)
+
+  if (isError) {
+    console.log('search data' + debouncedSearch)
+    
+  return <p className="text-center mt-10 text-red-500">Failed to load blogs</p>
+  }
+  console.log('ERROR:', isError)
+  console.log('DATA:', data)
+
+
+
+
+
+
+  console.log('data ', blogs)
   return (
     <div className="bg-white pt-5 text-black">
       {/* search bar  */}
       <div className=" relative m-auto max-w-md">
         <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           className="rounded-full outline-none w-full px-3 py-1 bg-[#848484]/48"
-          placeholder="Search Blog Post"
+          placeholder="Search Blog..."
         />
         <Search className=" cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 " />
       </div>
 
       <div className="gap-8">
         <div className=" sm:grid md:grid-cols-2 lg:grid-cols-4">
-          {data?.map((blog) => (
-            <div className="mt-5" key={blog._id}>
+          {blogs?.map((blog, index) => (
+            <div className="mt-5" key={blog._id || index}>
               {blog.image && (
                 <div className="w-full h-[300px] overflow-hidden">
                   <Image
@@ -51,7 +80,9 @@ const BLogsPage = () => {
                 <div className="flex justify-between items-center mt-2 px-5">
                   <h2 className=" text-2xl">{blog.title}</h2>
                   {console.log('blog title ', blog.title)}
-                  <h4 className=" text-blue-400">{blog.category}</h4>
+                  <h4 className=" text-blue-400">
+                    {blog.category || 'Uncategorized'}
+                  </h4>
                 </div>
 
                 {/* auther and time  */}

@@ -14,34 +14,30 @@ export const blogApi = createApi({
       return headers
     },
   }),
-
-  endpoints : (builder) =>({
-
-    // create a new blog 
-    createBlog : builder.mutation({
-        query : (data) => ({
-            url : "/blog",
-            method : "POST",
-            body : data
-        })
+  tagTypes: ['Blogs'],
+  endpoints: (builder) => ({
+    // create a new blog
+    createBlog: builder.mutation({
+      query: (data) => ({
+        url: '/blog',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Blogs'],
     }),
 
-    // get all blogs 
+    // get all blogs
 
-    getBlogs : builder.query({
-      query : (data)=>({
-        url : "/blog",
-        method : "Get",
-        body: data
-      })
-    })
+   
 
-
-  })
-
+    getBlogs: builder.query({
+      query: ({ search = '', page = 1, limit = 10 }) => {
+       return `/blog?title=${search}&page=${page}&limit=${limit}`;
+      },
+      providesTags: ['Blogs'],
+      keepUnusedDataFor: 0,
+    }),
+  }),
 })
 
-export const {
-    useCreateBlogMutation,
-    useGetBlogsQuery
-} = blogApi
+export const { useCreateBlogMutation, useGetBlogsQuery } = blogApi
